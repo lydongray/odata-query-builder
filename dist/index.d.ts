@@ -6,6 +6,17 @@ export enum FragmentType {
     Skip = 3,
     Count = 4,
     Expand = 5,
+    Filter = 6,
+    Take = 7
+}
+
+
+export enum FragmentType {
+    OrderBy = 1,
+    Top = 2,
+    Skip = 3,
+    Count = 4,
+    Expand = 5,
     Filter = 6
 }
 
@@ -21,6 +32,32 @@ export class QueryBuilder {
     orderBy: (fields: string) => this;
     top: (top: number) => this;
     skip: (skip: number) => this;
+    count: () => this;
+    expand: (fields: string) => this;
+    filter: (predicate: (filter: FilterBuilder) => FilterBuilder, operator?: string) => this;
+    toQuery: () => string;
+}
+export {};
+
+export class QueryFragment {
+    type: FragmentType;
+    value: string;
+    constructor(type: FragmentType, value: string);
+}
+
+type filterExpressionType = string | number | boolean | Date;
+export default class FilterBuilder {
+    filterExpression: (field: string, operator: string, value: filterExpressionType) => this;
+    filterPhrase: (phrase: string) => this;
+    and: (predicate: (filter: FilterBuilder) => FilterBuilder) => this;
+    or: (predicate: (filter: FilterBuilder) => FilterBuilder) => this;
+    toQuery: (operator: string) => string;
+}
+export class QueryBuilder {
+    orderBy: (fields: string) => this;
+    top: (top: number) => this;
+    skip: (skip: number) => this;
+    take: (take: number) => this;
     count: () => this;
     expand: (fields: string) => this;
     filter: (predicate: (filter: FilterBuilder) => FilterBuilder, operator?: string) => this;

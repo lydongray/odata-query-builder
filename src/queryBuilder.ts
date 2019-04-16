@@ -63,6 +63,10 @@ export class QueryBuilder {
     this.fragments.push(new QueryFragment(FragmentType.Skip, `$skip=${skip}`));
     return this;
   };
+  take = (take: number) => {
+    this.fragments.push(new QueryFragment(FragmentType.Take, `$take=${take}`));
+    return this;
+  };
   count = () => {
     this.fragments.push(new QueryFragment(FragmentType.Count, `$count=true`));
     return this;
